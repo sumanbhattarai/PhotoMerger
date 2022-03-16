@@ -57,7 +57,7 @@ const AppProvider = ({children}: Props) => {
     id: ImageIdentifier,
     changes: Partial<ImageConfig>,
   ) => {
-    if (id === 'front' || 1) {
+    if (id === 'front' || id === 1) {
       setFrontImageConfig({...frontImageConfig, ...changes});
     } else {
       setBackImageConfig({...backImageConfig, ...changes});
@@ -65,7 +65,7 @@ const AppProvider = ({children}: Props) => {
   };
 
   const getImageConfig = (id: ImageIdentifier) => {
-    if (id === 'front' || 1) {
+    if (id === 'front' || id === 1) {
       return frontImageConfig;
     } else {
       return backImageConfig;
