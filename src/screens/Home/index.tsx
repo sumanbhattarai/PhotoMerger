@@ -1,57 +1,50 @@
-import React, {useState} from 'react';
-import {View, ScrollView, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Slider from '@react-native-community/slider';
+import React from 'react';
+import {View, FlatList} from 'react-native';
 
 import styles from './styles';
 import Text from 'components/Text';
-import {wp, hp} from 'utils/Constants';
+import SelectPhotoBox from 'components/SelectPhotoBox';
 import Colors from 'utils/Colors';
-import Button from 'components/Button';
+
+type ISelectPhoto = {step: number; title: string};
+
+const selectPhoto: ISelectPhoto[] = [
+  {step: 1, title: 'Front Side Photo'},
+  {step: 2, title: 'Back Side Photo'},
+];
 
 const Home = () => {
-  const [scale, setScale] = useState<number>(0.8);
-  return (
-    <ScrollView style={styles.container}>
-      <Text>SELECT PHOTOS</Text>
-      <View
-        style={{
-          borderWidth: 0.2,
-          borderColor: Colors.gray,
-          padding: wp(4),
-          backgroundColor: Colors.white,
-        }}>
-        <Text>Step 1: Front Side Photo</Text>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={{
-            height: hp(30),
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#FFFFFF',
-          }}>
-          <Icon name="image" color={Colors.gray} size={wp(12)} />
-          <Text color={Colors.gray}>
-            Click to select a photo of the front side.
-          </Text>
-        </TouchableOpacity>
-        <View style={{flexDirection: 'row', marginVertical: 16}}>
-          <Text>Scale ( {`${scale.toFixed(1)}x`} )</Text>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <Slider
-              value={scale}
-              minimumValue={0.5}
-              maximumValue={1.2}
-              onValueChange={value => setScale(value)}
-              minimumTrackTintColor={Colors.primary}
-              thumbTintColor={Colors.primary}
-              maximumTrackTintColor={Colors.gray}
-            />
+  const Footer = () => {
+    return (
+      <View style={styles.footerView}>
+        <Text>PREVIEW</Text>
+        <View style={styles.outputView}>
+          <View style={styles.eachSideView}>
+            <View style={styles.textView}>
+              <Text color={Colors.gray}>FRONT SIDE</Text>
+            </View>
+          </View>
+          <View style={styles.eachSideView}>
+            <View style={styles.textView}>
+              <Text color={Colors.gray}>Back SIDE</Text>
+            </View>
           </View>
         </View>
-        <Button title="Rotate 90°" />
       </View>
-    </ScrollView>
+    );
+  };
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={selectPhoto}
+        renderItem={({item}) => (
+          <SelectPhotoBox step={item.step} title={item.title} />
+        )}
+        ListHeaderComponent={() => <Text>SELECT PHOTOS</Text>}
+        ListFooterComponent={() => <Footer />}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 };
 
