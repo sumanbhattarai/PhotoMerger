@@ -1,12 +1,18 @@
 import React from 'react';
 import {View, Image} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import styles from './styles';
 import Text from 'components/Text';
 import Colors from 'utils/Colors';
 import Button from 'components/Button';
+import {RootStackParamList} from 'navigators/utils';
 
-const Home = () => {
+interface Props {
+  navigation: StackNavigationProp<RootStackParamList, 'Introduction'>;
+}
+
+const Introduction = ({navigation}: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.topView}>
@@ -28,10 +34,16 @@ const Home = () => {
         </Text>
       </View>
       <View style={styles.bottomView}>
-        <Button title="Get Started" style={styles.button} />
+        <Button
+          title="Get Started"
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate('Home');
+          }}
+        />
       </View>
     </View>
   );
 };
 
-export default Home;
+export default Introduction;

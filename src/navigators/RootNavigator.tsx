@@ -3,8 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from 'screens/Home';
 import Introduction from 'screens/Introduction';
+import {RootStackParamList} from 'navigators/utils';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
