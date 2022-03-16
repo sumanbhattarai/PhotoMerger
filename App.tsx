@@ -1,17 +1,15 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import SplashScreen from 'react-native-splash-screen';
 
 import RootNavigator from 'navigators/RootNavigator';
+import AppLoadProvider from 'providers/AppLoadProvider';
 
 const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
   return (
     <NavigationContainer>
-      <RootNavigator />
+      <AppLoadProvider>
+        <RootNavigator />
+      </AppLoadProvider>
     </NavigationContainer>
   );
 };

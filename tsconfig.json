@@ -69,7 +69,8 @@
       "animation": ["./animation/*"],
       "hooks": ["./hooks/*"],
       "services": ["./services/*"],
-      "api": ["./api/*"]
+      "api": ["./api/*"],
+      "providers": ["./providers/*"]
     }
   },
   "exclude": [

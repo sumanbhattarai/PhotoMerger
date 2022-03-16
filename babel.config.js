@@ -27,6 +27,7 @@ module.exports = {
           hooks: './src/hooks',
           services: './src/services',
           api: './src/api',
+          providers: './src/providers',
         },
       },
     ],

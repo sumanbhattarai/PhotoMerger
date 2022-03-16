@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Image} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
@@ -7,12 +7,19 @@ import Text from 'components/Text';
 import Colors from 'utils/Colors';
 import Button from 'components/Button';
 import {RootStackParamList} from 'navigators/utils';
+import {AppLoad} from 'providers/AppLoadProvider';
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Introduction'>;
 }
 
 const Introduction = ({navigation}: Props) => {
+  const {updateAppFirstRun} = useContext(AppLoad);
+
+  const handleClick = () => {
+    updateAppFirstRun().then(() => navigation.navigate('Home'));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.topView}>
@@ -37,9 +44,7 @@ const Introduction = ({navigation}: Props) => {
         <Button
           title="Get Started"
           style={styles.button}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
+          onPress={handleClick}
         />
       </View>
     </View>
