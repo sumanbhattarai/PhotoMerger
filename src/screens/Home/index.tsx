@@ -1,11 +1,17 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, ScrollView} from 'react-native';
+
+import styles from './styles';
+import Text from 'components/Text';
 
 const Home = () => {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <Text>SELECT PHOTOS</Text>
+      <View>
+        <Text>Step 1: Front Side Photo</Text>
+      </View>
+    </ScrollView>
   );
 };
 
