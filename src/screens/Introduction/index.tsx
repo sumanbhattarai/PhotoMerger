@@ -7,14 +7,14 @@ import Text from 'components/Text';
 import Colors from 'utils/Colors';
 import Button from 'components/Button';
 import {RootStackParamList} from 'navigators/utils';
-import {AppLoad} from 'providers/AppLoadProvider';
+import {AppContext} from 'providers/AppProvider';
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Introduction'>;
 }
 
 const Introduction = ({navigation}: Props) => {
-  const {updateAppFirstRun} = useContext(AppLoad);
+  const {updateAppFirstRun} = useContext(AppContext);
 
   const handleClick = () => {
     updateAppFirstRun().then(() => navigation.navigate('Home'));

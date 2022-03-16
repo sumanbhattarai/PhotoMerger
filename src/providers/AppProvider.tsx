@@ -8,13 +8,13 @@ interface IAppLoadContext {
   updateAppFirstRun: () => Promise<void>;
 }
 
-const AppLoad = createContext<IAppLoadContext>({} as IAppLoadContext);
+const AppContext = createContext<IAppLoadContext>({} as IAppLoadContext);
 
 interface Props {
   children: ReactNode;
 }
 
-const AppLoadProvider = ({children}: Props) => {
+const AppProvider = ({children}: Props) => {
   const [isAppFirstRun, setIsAppFirstRun] = useState<boolean>(true);
 
   useEffect(() => {
@@ -30,11 +30,11 @@ const AppLoadProvider = ({children}: Props) => {
   };
 
   return (
-    <AppLoad.Provider value={{isAppFirstRun, updateAppFirstRun}}>
+    <AppContext.Provider value={{isAppFirstRun, updateAppFirstRun}}>
       {children}
-    </AppLoad.Provider>
+    </AppContext.Provider>
   );
 };
 
-export default AppLoadProvider;
-export {AppLoad};
+export default AppProvider;
+export {AppContext};
