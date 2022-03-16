@@ -8,7 +8,7 @@ const getAppOpenedStatus = async (): Promise<boolean> => {
   const response: null | string = await AsyncStorage.getItem(
     AsyncStoreConstant.HasAppBeenOpenedPreviously,
   );
-  return response !== null; // gives false for the firstRun else true
+  return Boolean(!response);
 };
 
 const setAppOpenedStatus = async (
