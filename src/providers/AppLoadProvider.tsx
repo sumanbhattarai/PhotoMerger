@@ -16,7 +16,6 @@ interface Props {
 
 const AppLoadProvider = ({children}: Props) => {
   const [isAppFirstRun, setIsAppFirstRun] = useState<boolean>(true);
-  console.log({isAppFirstRun});
 
   useEffect(() => {
     (async () => {
