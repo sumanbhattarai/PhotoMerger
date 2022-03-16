@@ -24,7 +24,7 @@ interface ImageConfig {
 
 const initialImageConfig = {
   uri: null,
-  angle: 1,
+  angle: 90,
   scale: 0.8,
 };
 

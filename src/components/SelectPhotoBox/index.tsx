@@ -9,7 +9,6 @@ import Text from 'components/Text';
 import Colors from 'utils/Colors';
 import {wp} from 'utils/Constants';
 import {AppContext} from 'providers/AppProvider';
-import {getAngle} from 'services/Angle';
 
 interface Props {
   step: number;
@@ -46,8 +45,10 @@ const SelectPhotoBox = ({step, title}: Props) => {
         </View>
       </View>
       <Button
-        title={`Rotate ${getAngle(angle)}°`}
-        onPress={() => updateImageConfig(step, {angle: angle + 1})}
+        title={`Rotate ${angle}°`}
+        onPress={() =>
+          updateImageConfig(step, {angle: angle === 360 ? 90 : angle + 90})
+        }
       />
     </View>
   );
