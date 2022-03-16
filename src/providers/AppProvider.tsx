@@ -4,13 +4,16 @@ import SplashScreen from 'react-native-splash-screen';
 
 import {getAppOpenedStatus, setAppOpenedStatus} from 'services/AsyncStorage';
 
+type ImageIdentifier = 'front' | 'back' | number;
+
 interface IAppLoadContext {
   isAppFirstRun: boolean;
   updateAppFirstRun: () => Promise<void>;
   updateImageConfig: (
-    imageIdentifier: 'front' | 'back',
+    id: ImageIdentifier,
     changes: Partial<ImageConfig>,
   ) => void;
+  getImageConfig: (id: ImageIdentifier) => ImageConfig;
 }
 
 interface ImageConfig {
@@ -51,19 +54,32 @@ const AppProvider = ({children}: Props) => {
   };
 
   const updateImageConfig = (
-    imageIdentifier: 'front' | 'back',
+    id: ImageIdentifier,
     changes: Partial<ImageConfig>,
   ) => {
-    if (imageIdentifier === 'front') {
+    if (id === 'front' || 1) {
       setFrontImageConfig({...frontImageConfig, ...changes});
     } else {
       setBackImageConfig({...backImageConfig, ...changes});
     }
   };
 
+  const getImageConfig = (id: ImageIdentifier) => {
+    if (id === 'front' || 1) {
+      return frontImageConfig;
+    } else {
+      return backImageConfig;
+    }
+  };
+
   return (
     <AppContext.Provider
-      value={{isAppFirstRun, updateAppFirstRun, updateImageConfig}}>
+      value={{
+        isAppFirstRun,
+        updateAppFirstRun,
+        updateImageConfig,
+        getImageConfig,
+      }}>
       {children}
     </AppContext.Provider>
   );

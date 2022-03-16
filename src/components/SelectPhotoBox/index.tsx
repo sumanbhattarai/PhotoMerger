@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
@@ -8,6 +8,8 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import Colors from 'utils/Colors';
 import {wp} from 'utils/Constants';
+import {AppContext} from 'providers/AppProvider';
+import {getAngle} from 'services/Angle';
 
 interface Props {
   step: number;
@@ -15,7 +17,9 @@ interface Props {
 }
 
 const SelectPhotoBox = ({step, title}: Props) => {
-  const [scale, setScale] = useState<number>(0.8);
+  const {getImageConfig, updateImageConfig} = useContext(AppContext);
+  const {angle, scale} = getImageConfig(step);
+
   return (
     <View style={styles.container}>
       <Text>
@@ -34,14 +38,17 @@ const SelectPhotoBox = ({step, title}: Props) => {
             value={scale}
             minimumValue={0.5}
             maximumValue={1.2}
-            onValueChange={value => setScale(value)}
+            onValueChange={value => updateImageConfig(step, {scale: value})}
             minimumTrackTintColor={Colors.primary}
             thumbTintColor={Colors.primary}
             maximumTrackTintColor={Colors.gray}
           />
         </View>
       </View>
-      <Button title="Rotate 90°" />
+      <Button
+        title={`Rotate ${getAngle(angle)}°`}
+        onPress={() => updateImageConfig(step, {angle: angle + 1})}
+      />
     </View>
   );
 };
