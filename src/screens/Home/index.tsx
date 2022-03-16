@@ -3,6 +3,7 @@ import {View, ScrollView} from 'react-native';
 
 import styles from './styles';
 import Text from 'components/Text';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Home = () => {
   return (
