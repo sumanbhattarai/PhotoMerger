@@ -1,11 +1,16 @@
-import React, {useContext} from 'react';
-import {View, FlatList, Image} from 'react-native';
+import React, {createRef, useContext} from 'react';
+import {View, FlatList, Image, PermissionsAndroid} from 'react-native';
+import ViewShot from 'react-native-view-shot';
+import CameraRoll from '@react-native-community/cameraroll';
 
 import styles from './styles';
 import Text from 'components/Text';
 import SelectPhotoBox from 'components/SelectPhotoBox';
 import Colors from 'utils/Colors';
 import {AppContext} from 'providers/AppProvider';
+import Button from 'components/Button';
+import {showSuccess, showError} from 'utils/Toast';
+import {isAndroid} from 'utils/Constants';
 
 type ISelectPhoto = {step: number; title: string};
 
@@ -14,40 +19,74 @@ const selectPhoto: ISelectPhoto[] = [
   {step: 2, title: 'Back Side Photo'},
 ];
 
+async function hasAndroidPermission() {
+  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+
+  const hasPermission = await PermissionsAndroid.check(permission);
+  if (hasPermission) {
+    return true;
+  }
+
+  const status = await PermissionsAndroid.request(permission);
+  return status === 'granted';
+}
+
 const EachPhotoView = ({id}: {id: number}) => {
   const {getImageConfig} = useContext(AppContext);
   const {uri, scale, angle} = getImageConfig(id);
   return (
-    <View style={styles.outputView}>
-      <View style={[styles.eachSideView, {borderWidth: uri ? 0 : 0.2}]}>
-        {uri ? (
-          <Image
-            source={{uri: uri}}
-            style={[
-              styles.image,
-              {transform: [{scale}, {rotateX: `${angle}deg`}]},
-            ]}
-            resizeMode="contain"
-          />
-        ) : (
-          <View style={styles.textView}>
-            <Text color={Colors.gray}>
-              {id === 1 ? 'FRONT SIDE' : 'BACK SIDE'}
-            </Text>
-          </View>
-        )}
-      </View>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <View style={[styles.eachSideView, {borderWidth: uri ? 0 : 0.2}]}>
+      {uri ? (
+        <Image
+          source={{uri: uri}}
+          style={[
+            styles.image,
+            {transform: [{scale}, {rotateX: `${angle}deg`}]},
+          ]}
+          resizeMode="contain"
+        />
+      ) : (
+        <View style={styles.textView}>
+          <Text color={Colors.gray}>
+            {id === 1 ? 'FRONT SIDE' : 'BACK SIDE'}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
 
 const Footer = () => {
+  const viewRef = createRef<ViewShot>();
+  const saveImage = () => {
+    viewRef.current
+      ?.capture()
+      .then(async uri => {
+        console.log('syccesss', uri);
+        if (isAndroid && !(await hasAndroidPermission())) {
+          return;
+        }
+        CameraRoll.save(uri, {type: 'photo', album: 'Photo Merger'});
+        showSuccess('Image has been saved successfully.');
+      })
+      .catch(() => {
+        console.log('fail');
+        showError('Something went wrong!');
+      });
+  };
   return (
     <View style={styles.footerView}>
       <Text>PREVIEW</Text>
-      {selectPhoto.map(({step}) => (
-        <EachPhotoView key={step} id={step} />
-      ))}
+      <ViewShot
+        style={styles.outputView}
+        ref={viewRef}
+        options={{format: 'jpg', quality: 0.9}}>
+        {selectPhoto.map(({step}) => (
+          <EachPhotoView key={step} id={step} />
+        ))}
+      </ViewShot>
+      <Button title="Save Image" style={{marginTop: 16}} onPress={saveImage} />
     </View>
   );
 };
