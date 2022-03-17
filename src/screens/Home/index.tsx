@@ -1,10 +1,11 @@
-import React from 'react';
-import {View, FlatList} from 'react-native';
+import React, {useContext} from 'react';
+import {View, FlatList, Image} from 'react-native';
 
 import styles from './styles';
 import Text from 'components/Text';
 import SelectPhotoBox from 'components/SelectPhotoBox';
 import Colors from 'utils/Colors';
+import {AppContext} from 'providers/AppProvider';
 
 type ISelectPhoto = {step: number; title: string};
 
@@ -13,26 +14,45 @@ const selectPhoto: ISelectPhoto[] = [
   {step: 2, title: 'Back Side Photo'},
 ];
 
-const Home = () => {
-  const Footer = () => {
-    return (
-      <View style={styles.footerView}>
-        <Text>PREVIEW</Text>
-        <View style={styles.outputView}>
-          <View style={styles.eachSideView}>
-            <View style={styles.textView}>
-              <Text color={Colors.gray}>FRONT SIDE</Text>
-            </View>
+const EachPhotoView = ({id}: {id: number}) => {
+  const {getImageConfig} = useContext(AppContext);
+  const {uri, scale, angle} = getImageConfig(id);
+  return (
+    <View style={styles.outputView}>
+      <View style={[styles.eachSideView, {borderWidth: uri ? 0 : 0.2}]}>
+        {uri ? (
+          <Image
+            source={{uri: uri}}
+            style={[
+              styles.image,
+              {transform: [{scale}, {rotateX: `${angle}deg`}]},
+            ]}
+            resizeMode="contain"
+          />
+        ) : (
+          <View style={styles.textView}>
+            <Text color={Colors.gray}>
+              {id === 1 ? 'FRONT SIDE' : 'BACK SIDE'}
+            </Text>
           </View>
-          <View style={styles.eachSideView}>
-            <View style={styles.textView}>
-              <Text color={Colors.gray}>Back SIDE</Text>
-            </View>
-          </View>
-        </View>
+        )}
       </View>
-    );
-  };
+    </View>
+  );
+};
+
+const Footer = () => {
+  return (
+    <View style={styles.footerView}>
+      <Text>PREVIEW</Text>
+      {selectPhoto.map(({step}) => (
+        <EachPhotoView key={step} id={step} />
+      ))}
+    </View>
+  );
+};
+
+const Home = () => {
   return (
     <View style={styles.container}>
       <FlatList

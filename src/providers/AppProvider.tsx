@@ -17,14 +17,14 @@ interface IAppLoadContext {
 }
 
 interface ImageConfig {
-  uri: null | ImageSourcePropType;
+  uri: string;
   angle: number;
   scale: number;
 }
 
 const initialImageConfig = {
-  uri: null,
-  angle: 90,
+  uri: '',
+  angle: 0,
   scale: 0.8,
 };
 

@@ -13,9 +13,20 @@ const styles = StyleSheet.create({
   },
   imageView: {
     height: hp(30),
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+  },
+  image: {
+    width: wp(74),
+    height: hp(24),
+    maxHeight: hp(24),
+    maxWidth: wp(74),
+  },
+  noImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
   scaleView: {flexDirection: 'row', marginVertical: 16},
   sliderView: {

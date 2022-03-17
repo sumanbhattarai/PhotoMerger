@@ -1,13 +1,10 @@
 import {useState} from 'react';
-import {
-  launchImageLibrary,
-  ImagePickerResponse,
-} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 import {showError} from 'utils/Toast';
 
 const useImagePicker = () => {
-  const [pickedImage, setPickedImage] = useState<ImagePickerResponse>();
+  const [pickedImage, setPickedImage] = useState<string>();
 
   const openImageLibrary = () =>
     launchImageLibrary({mediaType: 'photo'}, response => {
@@ -18,7 +15,7 @@ const useImagePicker = () => {
         showError(response.errorMessage);
         return;
       }
-      setPickedImage(response);
+      setPickedImage(response.assets?.[0].uri);
     });
 
   return {openImageLibrary, pickedImage};
