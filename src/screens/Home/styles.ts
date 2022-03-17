@@ -43,7 +43,7 @@ const styles = StyleSheet.create<Style>({
     width: wp(74),
     height: hp(24),
     maxHeight: hp(24),
-    maxWidth: wp(74),
+    maxWidth: wp(70),
   },
   header: {
     marginTop: 16,

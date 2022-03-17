@@ -38,7 +38,10 @@ const SelectPhotoBox = ({step, title}: Props) => {
         {pickedImage ? (
           <Image
             source={{uri: pickedImage}}
-            style={styles.image}
+            style={[
+              styles.image,
+              {transform: [{scale}, {rotateX: `${angle}deg`}]},
+            ]}
             resizeMode="contain"
           />
         ) : (

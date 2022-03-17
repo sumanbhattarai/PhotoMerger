@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: wp(74),
     height: hp(24),
     maxHeight: hp(24),
-    maxWidth: wp(74),
+    maxWidth: wp(70),
   },
   noImage: {
     justifyContent: 'center',
