@@ -1,4 +1,4 @@
-import {ViewStyle, StyleSheet, ImageStyle} from 'react-native';
+import {ViewStyle, StyleSheet, ImageStyle, TextStyle} from 'react-native';
 
 import {wp, hp} from 'utils/Constants';
 import Colors from 'utils/Colors';
@@ -10,6 +10,7 @@ interface Style {
   eachSideView: ViewStyle;
   textView: ViewStyle;
   image: ImageStyle;
+  header: TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
@@ -19,6 +20,7 @@ const styles = StyleSheet.create<Style>({
   },
   outputView: {
     backgroundColor: Colors.white,
+    marginTop: 16,
   },
   footerView: {
     marginVertical: 16,
@@ -41,6 +43,9 @@ const styles = StyleSheet.create<Style>({
     height: hp(24),
     maxHeight: hp(24),
     maxWidth: wp(74),
+  },
+  header: {
+    marginTop: 16,
   },
 });
 

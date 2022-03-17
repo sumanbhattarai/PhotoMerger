@@ -10,7 +10,7 @@ import Fonts from 'utils/Fonts';
 import Colors from 'utils/Colors';
 import {wp} from 'utils/Constants';
 
-type TextType = 'bold' | 'regular' | 'light';
+type TextType = 'bold' | 'semi-bold' | 'regular' | 'light';
 
 interface Props extends TextProps {
   type?: TextType;
@@ -26,6 +26,12 @@ const getStyling = (type: TextType): TextStyle => {
       return {
         fontSize: wp(7.2),
         fontFamily: Fonts.black,
+      };
+
+    case 'semi-bold':
+      return {
+        fontSize: wp(6),
+        fontFamily: Fonts.bold,
       };
 
     case 'regular':

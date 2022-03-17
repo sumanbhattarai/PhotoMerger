@@ -78,7 +78,7 @@ const Footer = () => {
   };
   return (
     <View style={styles.footerView}>
-      <Text>PREVIEW</Text>
+      <Text type="semi-bold">PREVIEW</Text>
       <ViewShot
         style={styles.outputView}
         ref={viewRef}
@@ -87,7 +87,9 @@ const Footer = () => {
           <EachPhotoView key={step} id={step} />
         ))}
       </ViewShot>
-      <Text>SAVE IMAGE</Text>
+      <Text type="semi-bold" style={styles.header}>
+        SAVE IMAGE
+      </Text>
       <Picker
         items={[
           {label: 'JPEG', value: 'jpg'},
@@ -114,7 +116,11 @@ const Home = () => {
         renderItem={({item}) => (
           <SelectPhotoBox step={item.step} title={item.title} />
         )}
-        ListHeaderComponent={() => <Text>SELECT PHOTOS</Text>}
+        ListHeaderComponent={() => (
+          <Text type="semi-bold" style={styles.header}>
+            SELECT PHOTOS
+          </Text>
+        )}
         ListFooterComponent={() => <Footer />}
         showsVerticalScrollIndicator={false}
       />
