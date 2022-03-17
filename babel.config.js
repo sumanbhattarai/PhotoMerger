@@ -28,6 +28,7 @@ module.exports = {
           services: './src/services',
           api: './src/api',
           providers: './src/providers',
+          permissions: './src/permissions',
         },
       },
     ],

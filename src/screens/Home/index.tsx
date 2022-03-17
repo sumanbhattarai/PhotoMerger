@@ -1,5 +1,5 @@
-import React, {createRef, useContext, useState} from 'react';
-import {View, FlatList, Image, PermissionsAndroid} from 'react-native';
+import React, {createRef, useState} from 'react';
+import {View, FlatList} from 'react-native';
 import ViewShot, {CaptureOptions} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFS from 'react-native-fs';
@@ -7,51 +7,13 @@ import RNFS from 'react-native-fs';
 import styles from './styles';
 import Text from 'components/Text';
 import SelectPhotoBox from 'components/SelectPhotoBox';
-import Colors from 'utils/Colors';
-import {AppContext} from 'providers/AppProvider';
 import Button from 'components/Button';
 import {showSuccess, showError} from 'utils/Toast';
 import {isAndroid} from 'utils/Constants';
 import Picker from 'components/Picker';
 import {imageFormats, qualityOptions, selectPhoto} from './utils';
-
-async function hasAndroidPermission() {
-  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-
-  const hasPermission = await PermissionsAndroid.check(permission);
-  if (hasPermission) {
-    return true;
-  }
-
-  const status = await PermissionsAndroid.request(permission);
-  return status === 'granted';
-}
-
-const EachPhotoView = ({id}: {id: number}) => {
-  const {getImageConfig} = useContext(AppContext);
-  const {uri, scale, angle} = getImageConfig(id);
-  return (
-    // eslint-disable-next-line react-native/no-inline-styles
-    <View style={[styles.eachSideView, {borderWidth: uri ? 0 : 0.2}]}>
-      {uri ? (
-        <Image
-          source={{uri: uri}}
-          style={[
-            styles.image,
-            {transform: [{scale}, {rotate: `${angle}deg`}]},
-          ]}
-          resizeMode="contain"
-        />
-      ) : (
-        <View style={styles.textView}>
-          <Text color={Colors.gray}>
-            {id === 1 ? 'FRONT SIDE' : 'BACK SIDE'}
-          </Text>
-        </View>
-      )}
-    </View>
-  );
-};
+import {hasAndroidPermission} from 'permissions/';
+import EachPhotoView from 'components/EachPhotoView';
 
 const Footer = () => {
   const viewRef = createRef<ViewShot>();
