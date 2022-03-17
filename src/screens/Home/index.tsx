@@ -2,6 +2,7 @@ import React, {createRef, useContext, useState} from 'react';
 import {View, FlatList, Image, PermissionsAndroid} from 'react-native';
 import ViewShot, {CaptureOptions} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
+import RNFS from 'react-native-fs';
 
 import styles from './styles';
 import Text from 'components/Text';
@@ -65,17 +66,21 @@ const Footer = () => {
     viewRef.current
       ?.capture()
       .then(async uri => {
-        console.log('syccesss', uri);
+        let renamedURI = uri.replace(
+          'ReactNative-snapshot-image',
+          'Photo-Merger-',
+        );
         if (isAndroid && !(await hasAndroidPermission())) {
           return;
         }
-        CameraRoll.save(uri, {type: 'photo', album: 'Photo Merger'});
+        RNFS.copyFile(uri, renamedURI)
+          .then(() => {
+            CameraRoll.save(renamedURI, {type: 'photo', album: 'Photo Merger'});
+          })
+          .catch(err => showError(err.message));
         showSuccess('Image has been saved successfully.');
       })
-      .catch(() => {
-        console.log('fail');
-        showError('Something went wrong!');
-      });
+      .catch(error => showError(error.message));
   };
   return (
     <View style={styles.footerView}>
