@@ -3,18 +3,17 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 
 import styles from './styles';
-import Fonts from 'utils/Fonts';
 import Colors from 'utils/Colors';
 import {wp} from 'utils/Constants';
 
 interface Props {
   items: Array<{label: string; value: string}>;
+  updateValue: (val: any) => void;
 }
 
-const Picker = ({items}: Props) => {
+const Picker = ({items, updateValue}: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>(items[0].value);
-  console.log({value});
 
   return (
     <DropDownPicker
@@ -30,6 +29,7 @@ const Picker = ({items}: Props) => {
       TickIconComponent={() => (
         <Icon name="check" size={wp(4)} color={Colors.primary} />
       )}
+      onChangeValue={val => updateValue(val)}
     />
   );
 };

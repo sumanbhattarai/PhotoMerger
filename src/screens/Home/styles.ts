@@ -11,6 +11,7 @@ interface Style {
   textView: ViewStyle;
   image: ImageStyle;
   header: TextStyle;
+  button: ViewStyle;
 }
 
 const styles = StyleSheet.create<Style>({
@@ -47,6 +48,7 @@ const styles = StyleSheet.create<Style>({
   header: {
     marginTop: 16,
   },
+  button: {marginTop: 16},
 });
 
 export default styles;

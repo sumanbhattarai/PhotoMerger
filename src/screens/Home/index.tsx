@@ -1,6 +1,6 @@
-import React, {createRef, useContext} from 'react';
+import React, {createRef, useContext, useState} from 'react';
 import {View, FlatList, Image, PermissionsAndroid} from 'react-native';
-import ViewShot from 'react-native-view-shot';
+import ViewShot, {CaptureOptions} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
 
 import styles from './styles';
@@ -12,13 +12,7 @@ import Button from 'components/Button';
 import {showSuccess, showError} from 'utils/Toast';
 import {isAndroid} from 'utils/Constants';
 import Picker from 'components/Picker';
-
-type ISelectPhoto = {step: number; title: string};
-
-const selectPhoto: ISelectPhoto[] = [
-  {step: 1, title: 'Front Side Photo'},
-  {step: 2, title: 'Back Side Photo'},
-];
+import {imageFormats, qualityOptions, selectPhoto} from './utils';
 
 async function hasAndroidPermission() {
   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -60,6 +54,13 @@ const EachPhotoView = ({id}: {id: number}) => {
 
 const Footer = () => {
   const viewRef = createRef<ViewShot>();
+  const [saveImageConfig, setSaveImageConfig] = useState<
+    Partial<CaptureOptions>
+  >({
+    quality: 0.5,
+    format: 'jpg',
+  });
+
   const saveImage = () => {
     viewRef.current
       ?.capture()
@@ -82,7 +83,7 @@ const Footer = () => {
       <ViewShot
         style={styles.outputView}
         ref={viewRef}
-        options={{format: 'jpg', quality: 0.9}}>
+        options={saveImageConfig}>
         {selectPhoto.map(({step}) => (
           <EachPhotoView key={step} id={step} />
         ))}
@@ -91,19 +92,18 @@ const Footer = () => {
         SAVE IMAGE
       </Text>
       <Picker
-        items={[
-          {label: 'JPEG', value: 'jpg'},
-          {label: 'PNG', value: 'png'},
-        ]}
+        items={imageFormats}
+        updateValue={val =>
+          setSaveImageConfig({...saveImageConfig, format: val})
+        }
       />
       <Picker
-        items={[
-          {label: 'Good Quality ~150 KB', value: '0.5'},
-          {label: 'High Quality ~250 KB', value: '0.8'},
-          {label: 'Best Quality ~350 KB', value: '1'},
-        ]}
+        items={qualityOptions}
+        updateValue={val =>
+          setSaveImageConfig({...saveImageConfig, quality: Number(val)})
+        }
       />
-      <Button title="Save Image" style={{marginTop: 16}} onPress={saveImage} />
+      <Button title="Save Image" style={styles.button} onPress={saveImage} />
     </View>
   );
 };
