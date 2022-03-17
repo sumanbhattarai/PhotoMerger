@@ -11,6 +11,7 @@ import {AppContext} from 'providers/AppProvider';
 import Button from 'components/Button';
 import {showSuccess, showError} from 'utils/Toast';
 import {isAndroid} from 'utils/Constants';
+import Picker from 'components/Picker';
 
 type ISelectPhoto = {step: number; title: string};
 
@@ -86,6 +87,20 @@ const Footer = () => {
           <EachPhotoView key={step} id={step} />
         ))}
       </ViewShot>
+      <Text>SAVE IMAGE</Text>
+      <Picker
+        items={[
+          {label: 'JPEG', value: 'jpg'},
+          {label: 'PNG', value: 'png'},
+        ]}
+      />
+      <Picker
+        items={[
+          {label: 'Good Quality ~150 KB', value: '0.5'},
+          {label: 'High Quality ~250 KB', value: '0.8'},
+          {label: 'Best Quality ~350 KB', value: '1'},
+        ]}
+      />
       <Button title="Save Image" style={{marginTop: 16}} onPress={saveImage} />
     </View>
   );
