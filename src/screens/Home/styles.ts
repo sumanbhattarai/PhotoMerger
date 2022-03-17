@@ -28,7 +28,6 @@ const styles = StyleSheet.create<Style>({
   },
   eachSideView: {
     borderColor: Colors.gray,
-    margin: wp(4),
     height: hp(30),
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
