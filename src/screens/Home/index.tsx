@@ -37,7 +37,7 @@ const EachPhotoView = ({id}: {id: number}) => {
           source={{uri: uri}}
           style={[
             styles.image,
-            {transform: [{scale}, {rotateX: `${angle}deg`}]},
+            {transform: [{scale}, {rotate: `${angle}deg`}]},
           ]}
           resizeMode="contain"
         />
