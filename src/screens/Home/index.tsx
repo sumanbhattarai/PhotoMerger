@@ -12,7 +12,7 @@ import {showSuccess, showError} from 'utils/Toast';
 import {isAndroid} from 'utils/Constants';
 import Picker from 'components/Picker';
 import {imageFormats, qualityOptions, selectPhoto} from './utils';
-import {hasAndroidPermission} from 'permissions/';
+import {hasAndroidPermission} from 'permissions/index';
 import EachPhotoView from 'components/EachPhotoView';
 
 const Footer = () => {
@@ -26,7 +26,7 @@ const Footer = () => {
 
   const saveImage = () => {
     viewRef.current
-      ?.capture()
+      ?.capture?.()
       .then(async uri => {
         let renamedURI = uri.replace(
           'ReactNative-snapshot-image',
@@ -44,6 +44,7 @@ const Footer = () => {
       })
       .catch(error => showError(error.message));
   };
+
   return (
     <View style={styles.footerView}>
       <Text type="semi-bold">PREVIEW</Text>
