@@ -13,7 +13,7 @@ interface Props {
 
 const Picker = ({items, updateValue}: Props) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>(items[0].value);
+  const [value, setValue] = useState<any>(items[0].value);
 
   return (
     <DropDownPicker

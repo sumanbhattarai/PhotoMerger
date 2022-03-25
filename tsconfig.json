@@ -70,7 +70,8 @@
       "hooks": ["./hooks/*"],
       "services": ["./services/*"],
       "api": ["./api/*"],
-      "providers": ["./providers/*"]
+      "providers": ["./providers/*"],
+      "permissions": ["./permissions/*"]
     }
   },
   "exclude": [

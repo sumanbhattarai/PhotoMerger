@@ -1,77 +1,53 @@
-import React, {useContext, useEffect} from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, {useContext} from 'react';
+import {View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import styles from './styles';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import Colors from 'utils/Colors';
-import {wp} from 'utils/Constants';
 import {AppContext} from 'providers/AppProvider';
-import useImagePicker from 'hooks/useImagePicker';
+import ImageView from 'components/ImageView';
 
 interface Props {
-  step: number;
+  id: number;
   title: string;
 }
 
-const SelectPhotoBox = ({step, title}: Props) => {
+const SelectPhotoBox = ({id, title}: Props) => {
   const {getImageConfig, updateImageConfig} = useContext(AppContext);
-  const {angle, scale} = getImageConfig(step);
-  const {pickedImage, openImageLibrary} = useImagePicker();
-
-  useEffect(() => {
-    updateImageConfig(step, {uri: pickedImage});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pickedImage]);
+  const {uri, angle, scale} = getImageConfig(id);
 
   return (
     <View style={styles.container}>
-      <Text>
-        Step {step}: {title}
+      <Text style={styles.title}>
+        Step {id}: {title}
       </Text>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={styles.imageView}
-        onPress={openImageLibrary}>
-        {pickedImage ? (
-          <Image
-            source={{uri: pickedImage}}
-            style={[
-              styles.image,
-              {transform: [{scale}, {rotate: `${angle}deg`}]},
-            ]}
-            resizeMode="contain"
-          />
-        ) : (
-          <View style={styles.noImage}>
-            <Icon name="image" color={Colors.gray} size={wp(12)} />
-            <Text color={Colors.gray}>
-              Click to select a photo of the front side.
-            </Text>
-          </View>
-        )}
-      </TouchableOpacity>
+      <ImageView id={id} src="select" />
       <View style={styles.scaleView}>
         <Text>Scale ( {`${scale.toFixed(1)}x`} )</Text>
-        <View style={styles.sliderView}>
+        {/* since the package @react-native-community/slider has issue with disabled property, had to disable the touch event by wrapping the slider by a view and setting the pointer-event property to none if no uri is present  */}
+        <View style={styles.sliderView} pointerEvents={uri ? 'auto' : 'none'}>
           <Slider
             value={scale}
             minimumValue={0.5}
             maximumValue={1.2}
-            onValueChange={value => updateImageConfig(step, {scale: value})}
+            onValueChange={value => updateImageConfig(id, {scale: value})}
             minimumTrackTintColor={Colors.primary}
             thumbTintColor={Colors.primary}
             maximumTrackTintColor={Colors.gray}
+            // disable property not working
           />
         </View>
       </View>
       <Button
         title={`Rotate ${angle + 90}°`}
         onPress={() =>
-          updateImageConfig(step, {angle: angle === 270 ? 0 : angle + 90})
+          updateImageConfig(id, {angle: angle === 270 ? 0 : angle + 90})
         }
+        disabled={!uri}
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{opacity: uri ? 1 : 0.7}}
       />
     </View>
   );

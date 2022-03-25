@@ -1,5 +1,5 @@
 import React, {createRef, useContext, useState} from 'react';
-import {View, FlatList, Image, PermissionsAndroid} from 'react-native';
+import {View, FlatList} from 'react-native';
 import ViewShot, {CaptureOptions} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFS from 'react-native-fs';
@@ -7,51 +7,14 @@ import RNFS from 'react-native-fs';
 import styles from './styles';
 import Text from 'components/Text';
 import SelectPhotoBox from 'components/SelectPhotoBox';
-import Colors from 'utils/Colors';
-import {AppContext} from 'providers/AppProvider';
 import Button from 'components/Button';
 import {showSuccess, showError} from 'utils/Toast';
 import {isAndroid} from 'utils/Constants';
 import Picker from 'components/Picker';
 import {imageFormats, qualityOptions, selectPhoto} from './utils';
-
-async function hasAndroidPermission() {
-  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-
-  const hasPermission = await PermissionsAndroid.check(permission);
-  if (hasPermission) {
-    return true;
-  }
-
-  const status = await PermissionsAndroid.request(permission);
-  return status === 'granted';
-}
-
-const EachPhotoView = ({id}: {id: number}) => {
-  const {getImageConfig} = useContext(AppContext);
-  const {uri, scale, angle} = getImageConfig(id);
-  return (
-    // eslint-disable-next-line react-native/no-inline-styles
-    <View style={[styles.eachSideView, {borderWidth: uri ? 0 : 0.2}]}>
-      {uri ? (
-        <Image
-          source={{uri: uri}}
-          style={[
-            styles.image,
-            {transform: [{scale}, {rotate: `${angle}deg`}]},
-          ]}
-          resizeMode="contain"
-        />
-      ) : (
-        <View style={styles.textView}>
-          <Text color={Colors.gray}>
-            {id === 1 ? 'FRONT SIDE' : 'BACK SIDE'}
-          </Text>
-        </View>
-      )}
-    </View>
-  );
-};
+import {hasAndroidPermission} from 'permissions/index';
+import ImageView from 'components/ImageView';
+import {AppContext} from 'providers/AppProvider';
 
 const Footer = () => {
   const viewRef = createRef<ViewShot>();
@@ -61,10 +24,15 @@ const Footer = () => {
     quality: 0.5,
     format: 'jpg',
   });
+  const {isBothImageSelected} = useContext(AppContext);
 
   const saveImage = () => {
+    if (!isBothImageSelected) {
+      showError('Please select both side images.');
+      return;
+    }
     viewRef.current
-      ?.capture()
+      ?.capture?.()
       .then(async uri => {
         let renamedURI = uri.replace(
           'ReactNative-snapshot-image',
@@ -82,6 +50,7 @@ const Footer = () => {
       })
       .catch(error => showError(error.message));
   };
+
   return (
     <View style={styles.footerView}>
       <Text type="semi-bold">PREVIEW</Text>
@@ -89,8 +58,8 @@ const Footer = () => {
         style={styles.outputView}
         ref={viewRef}
         options={saveImageConfig}>
-        {selectPhoto.map(({step}) => (
-          <EachPhotoView key={step} id={step} />
+        {selectPhoto.map(({id}) => (
+          <ImageView key={id} id={id} src="preview" />
         ))}
       </ViewShot>
       <Text type="semi-bold" style={styles.header}>
@@ -119,7 +88,7 @@ const Home = () => {
       <FlatList
         data={selectPhoto}
         renderItem={({item}) => (
-          <SelectPhotoBox step={item.step} title={item.title} />
+          <SelectPhotoBox id={item.id} title={item.title} />
         )}
         ListHeaderComponent={() => (
           <Text type="semi-bold" style={styles.header}>
