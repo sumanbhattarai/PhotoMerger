@@ -11,11 +11,11 @@ const qualityOptions: ILabel[] = [
   {label: 'Best Quality ~350 KB', value: '1.0'},
 ];
 
-export type ISelectPhoto = {step: number; title: string};
+export type ISelectPhoto = {id: number; title: string};
 
 const selectPhoto: ISelectPhoto[] = [
-  {step: 1, title: 'Front Side Photo'},
-  {step: 2, title: 'Back Side Photo'},
+  {id: 1, title: 'Front Side Photo'},
+  {id: 2, title: 'Back Side Photo'},
 ];
 
 export {imageFormats, qualityOptions, selectPhoto};

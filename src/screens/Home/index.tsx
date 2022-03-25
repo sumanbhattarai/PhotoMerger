@@ -13,7 +13,7 @@ import {isAndroid} from 'utils/Constants';
 import Picker from 'components/Picker';
 import {imageFormats, qualityOptions, selectPhoto} from './utils';
 import {hasAndroidPermission} from 'permissions/index';
-import EachPhotoView from 'components/EachPhotoView';
+import ImageView from 'components/ImageView';
 
 const Footer = () => {
   const viewRef = createRef<ViewShot>();
@@ -52,8 +52,8 @@ const Footer = () => {
         style={styles.outputView}
         ref={viewRef}
         options={saveImageConfig}>
-        {selectPhoto.map(({step}) => (
-          <EachPhotoView key={step} id={step} />
+        {selectPhoto.map(({id}) => (
+          <ImageView key={id} id={id} src="preview" />
         ))}
       </ViewShot>
       <Text type="semi-bold" style={styles.header}>
@@ -82,7 +82,7 @@ const Home = () => {
       <FlatList
         data={selectPhoto}
         renderItem={({item}) => (
-          <SelectPhotoBox step={item.step} title={item.title} />
+          <SelectPhotoBox id={item.id} title={item.title} />
         )}
         ListHeaderComponent={() => (
           <Text type="semi-bold" style={styles.header}>

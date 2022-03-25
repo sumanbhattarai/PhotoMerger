@@ -1,6 +1,6 @@
-import {ViewStyle, StyleSheet, ImageStyle, TextStyle} from 'react-native';
+import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
 
-import {wp, hp} from 'utils/Constants';
+import {wp} from 'utils/Constants';
 import Colors from 'utils/Colors';
 
 interface Style {
@@ -19,6 +19,7 @@ const styles = StyleSheet.create<Style>({
   outputView: {
     backgroundColor: Colors.white,
     marginTop: 16,
+    padding: wp(4),
   },
   footerView: {
     marginVertical: 16,
