@@ -1,9 +1,15 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, ViewStyle} from 'react-native';
 
-import {wp, hp} from 'utils/Constants';
+import {wp} from 'utils/Constants';
 import Colors from 'utils/Colors';
 
-const styles = StyleSheet.create({
+interface Style {
+  container: ViewStyle;
+  scaleView: ViewStyle;
+  sliderView: ViewStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   container: {
     borderWidth: 0.2,
     borderColor: Colors.gray,
@@ -11,24 +17,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     marginTop: 16,
   },
-  imageView: {
-    height: hp(30),
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
+  scaleView: {
+    flexDirection: 'row',
+    marginVertical: 16,
   },
-  image: {
-    width: wp(74),
-    height: hp(24),
-    maxHeight: hp(24),
-    maxWidth: wp(70),
-  },
-  noImage: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  scaleView: {flexDirection: 'row', marginVertical: 16},
   sliderView: {
     flex: 1,
     justifyContent: 'center',

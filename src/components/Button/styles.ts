@@ -1,9 +1,14 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TextStyle, ViewStyle} from 'react-native';
 
 import {wp} from 'utils/Constants';
 import Colors from 'utils/Colors';
 
-const styles = StyleSheet.create({
+interface Style {
+  container: ViewStyle;
+  title: TextStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   container: {
     backgroundColor: Colors.primary,
     padding: wp(4),
