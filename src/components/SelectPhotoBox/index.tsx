@@ -16,17 +16,18 @@ interface Props {
 
 const SelectPhotoBox = ({id, title}: Props) => {
   const {getImageConfig, updateImageConfig} = useContext(AppContext);
-  const {angle, scale} = getImageConfig(id);
+  const {uri, angle, scale} = getImageConfig(id);
 
   return (
     <View style={styles.container}>
-      <Text>
+      <Text style={styles.title}>
         Step {id}: {title}
       </Text>
       <ImageView id={id} src="select" />
       <View style={styles.scaleView}>
         <Text>Scale ( {`${scale.toFixed(1)}x`} )</Text>
-        <View style={styles.sliderView}>
+        {/* since the package @react-native-community/slider has issue with disabled property, had to disable the touch event by wrapping the slider by a view and setting the pointer-event property to none if no uri is present  */}
+        <View style={styles.sliderView} pointerEvents={uri ? 'auto' : 'none'}>
           <Slider
             value={scale}
             minimumValue={0.5}
@@ -35,6 +36,7 @@ const SelectPhotoBox = ({id, title}: Props) => {
             minimumTrackTintColor={Colors.primary}
             thumbTintColor={Colors.primary}
             maximumTrackTintColor={Colors.gray}
+            // disable property not working
           />
         </View>
       </View>
@@ -43,6 +45,9 @@ const SelectPhotoBox = ({id, title}: Props) => {
         onPress={() =>
           updateImageConfig(id, {angle: angle === 270 ? 0 : angle + 90})
         }
+        disabled={!uri}
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{opacity: uri ? 1 : 0.7}}
       />
     </View>
   );
