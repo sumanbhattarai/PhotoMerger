@@ -1,4 +1,10 @@
-import React, {createContext, ReactNode, useEffect, useState} from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
 import {getAppOpenedStatus, setAppOpenedStatus} from 'services/AsyncStorage';
@@ -8,6 +14,7 @@ interface IAppLoadContext {
   updateAppFirstRun: () => Promise<void>;
   updateImageConfig: (id: number, changes: Partial<ImageConfig>) => void;
   getImageConfig: (id: number) => ImageConfig;
+  isBothImageSelected: boolean;
 }
 
 interface ImageConfig {
@@ -34,6 +41,13 @@ const AppProvider = ({children}: Props) => {
     useState<ImageConfig>(initialImageConfig);
   const [backImageConfig, setBackImageConfig] =
     useState<ImageConfig>(initialImageConfig);
+  const isBothImageSelected = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (frontImageConfig.uri && backImageConfig.uri) {
+      isBothImageSelected.current = true;
+    }
+  }, [frontImageConfig.uri, backImageConfig.uri]);
 
   useEffect(() => {
     (async () => {
@@ -70,6 +84,7 @@ const AppProvider = ({children}: Props) => {
         updateAppFirstRun,
         updateImageConfig,
         getImageConfig,
+        isBothImageSelected: isBothImageSelected.current,
       }}>
       {children}
     </AppContext.Provider>

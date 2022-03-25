@@ -1,4 +1,4 @@
-import React, {createRef, useState} from 'react';
+import React, {createRef, useContext, useState} from 'react';
 import {View, FlatList} from 'react-native';
 import ViewShot, {CaptureOptions} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -14,6 +14,7 @@ import Picker from 'components/Picker';
 import {imageFormats, qualityOptions, selectPhoto} from './utils';
 import {hasAndroidPermission} from 'permissions/index';
 import ImageView from 'components/ImageView';
+import {AppContext} from 'providers/AppProvider';
 
 const Footer = () => {
   const viewRef = createRef<ViewShot>();
@@ -23,8 +24,13 @@ const Footer = () => {
     quality: 0.5,
     format: 'jpg',
   });
+  const {isBothImageSelected} = useContext(AppContext);
 
   const saveImage = () => {
+    if (!isBothImageSelected) {
+      showError('Please select both side images.');
+      return;
+    }
     viewRef.current
       ?.capture?.()
       .then(async uri => {
