@@ -30,6 +30,7 @@ const ImageView = ({id, src}: Props) => {
   const percetangeBasedOnScale = (scale / 1.2) * 100;
 
   useLayoutEffect(() => {
+    // this is done to get the image dimensions after every uri change.
     uri &&
       Image.getSize(uri, (width, height) => {
         setIsImageVertical(width / height <= 1);
@@ -41,6 +42,7 @@ const ImageView = ({id, src}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickedImage]);
 
+  // It returns dynamic styling based on image orientation and rotation.
   const getImageDimension: ImageStyle = useMemo(
     () =>
       isImageVertical

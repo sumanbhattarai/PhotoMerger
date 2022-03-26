@@ -17,6 +17,7 @@ const Introduction = ({navigation}: Props) => {
   const {updateAppFirstRun} = useContext(AppContext);
 
   const handleClick = () => {
+    // first update the async storage then after navigate.
     updateAppFirstRun().then(() => navigation.navigate('Home'));
   };
 

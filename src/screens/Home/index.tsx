@@ -43,6 +43,7 @@ const Footer = () => {
         }
         RNFS.copyFile(uri, renamedURI)
           .then(() => {
+            // it saves the image to the gallery.
             CameraRoll.save(renamedURI, {type: 'photo', album: 'Photo Merger'});
           })
           .catch(err => showError(err.message));
