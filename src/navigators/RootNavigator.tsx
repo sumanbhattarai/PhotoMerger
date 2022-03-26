@@ -13,6 +13,7 @@ const RootNavigator = () => {
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      {/* Introduction screen should be visible only for the first time app has been opened. */}
       {isAppFirstRun && (
         <Stack.Screen name="Introduction" component={Introduction} />
       )}

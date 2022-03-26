@@ -9,7 +9,6 @@ interface Props extends TouchableOpacityProps {
   needsInternet?: boolean;
   loading?: boolean;
   style?: ViewStyle | ViewStyle[];
-
   children?: ReactNode;
 }
 

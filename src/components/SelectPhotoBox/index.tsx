@@ -33,8 +33,8 @@ const SelectPhotoBox = ({id, title}: Props) => {
             minimumValue={0.5}
             maximumValue={1.2}
             onValueChange={value => updateImageConfig(id, {scale: value})}
-            minimumTrackTintColor={Colors.primary}
-            thumbTintColor={Colors.primary}
+            minimumTrackTintColor={uri ? Colors.primary : Colors.gray}
+            thumbTintColor={uri ? Colors.primary : Colors.gray}
             maximumTrackTintColor={Colors.gray}
             // disable property not working
           />
