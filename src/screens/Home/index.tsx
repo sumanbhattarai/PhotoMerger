@@ -28,7 +28,7 @@ const Footer = () => {
 
   const saveImage = () => {
     if (!isBothImageSelected) {
-      showError('Please select both side images.');
+      showError('Please choose images for both sides.');
       return;
     }
     viewRef.current
@@ -47,7 +47,7 @@ const Footer = () => {
             CameraRoll.save(renamedURI, {type: 'photo', album: 'Photo Merger'});
           })
           .catch(err => showError(err.message));
-        showSuccess('Image has been saved successfully.');
+        showSuccess('The image has been saved successfully.');
       })
       .catch(error => showError(error.message));
   };
