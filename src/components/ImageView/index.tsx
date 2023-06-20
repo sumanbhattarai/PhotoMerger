@@ -77,7 +77,9 @@ const ImageView = ({id, src}: Props) => {
           <Text color={Colors.gray}>
             {isPreview
               ? `${id === 1 ? 'FRONT' : 'BACK'} SIDE`
-              : 'Click to select a photo of the front side.'}
+              : `Tap to choose a photo of the ${
+                  id === 1 ? 'front' : 'back'
+                } side.`}
           </Text>
         </View>
       )}

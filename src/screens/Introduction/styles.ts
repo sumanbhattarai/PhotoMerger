@@ -1,4 +1,4 @@
-import {ImageStyle, StyleSheet, ViewStyle} from 'react-native';
+import {ImageStyle, StyleSheet, TextStyle, ViewStyle} from 'react-native';
 
 import {hp, wp} from 'utils/Constants';
 
@@ -8,6 +8,7 @@ interface Style {
   bottomView: ViewStyle;
   image: ImageStyle;
   button: ViewStyle;
+  desc: TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
@@ -18,12 +19,18 @@ const styles = StyleSheet.create<Style>({
   topView: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   bottomView: {},
   image: {
     height: wp(30),
     width: wp(30),
+    alignSelf: 'center',
+    marginBottom: 12,
+    borderRadius: 8,
+  },
+  desc: {
+    marginTop: 24,
+    textAlign: 'justify',
   },
   button: {
     marginTop: hp(4),

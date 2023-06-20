@@ -29,16 +29,19 @@ const Introduction = ({navigation}: Props) => {
           style={styles.image}
           resizeMode="contain"
         />
-        <Text type="bold" color={Colors.black}>
-          <Text type="bold" color={Colors.primary}>
-            Photo ID Merge
-          </Text>{' '}
-          Tool {'\n'}
+        <Text type="bold" color={Colors.primary} textAlign="center">
+          Photo Merger
         </Text>
-        <Text type="regular" color={Colors.gray}>
-          Merge two photos into a single image. This tool is useful to combine
-          the photos of the front and back sides of your citizenship, driver's
-          license or similar documents.
+        <Text type="regular" style={styles.desc}>
+          Effortlessly merge two photos into a single image with our convenient
+          tool. Perfect for combining front and back sides of important
+          documents like citizenship or driver's licenses.
+        </Text>
+        <Text type="regular" style={styles.desc}>
+          Simplify the process and save time today!
+        </Text>
+        <Text type="light" color={Colors.gray} style={styles.desc}>
+          Note: We donot retain or store your photos.
         </Text>
       </View>
       <View style={styles.bottomView}>
